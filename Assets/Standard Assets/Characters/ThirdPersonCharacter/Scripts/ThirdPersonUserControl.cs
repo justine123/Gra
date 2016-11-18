@@ -21,12 +21,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Vector3 m_Move;
         private bool gameOver;
         private bool restart;
+        private float startPositionZ;
 
         private bool m_Jump;
         // the world-relative desired move direction, calculated from the camForward and user input.       
 
         private void Start()
         {
+            startPositionZ = transform.position.z;
             SetCountText();
             // get the transform of the main camera
             if (Camera.main != null)
@@ -48,6 +50,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         private void Update()
         {
+            transform.Translate(0f, 0f, 5f * Time.deltaTime);
+
             time += Time.deltaTime;
             if (!m_Jump)
             {
@@ -72,7 +76,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             SetCountText();
             // read inputs
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
-            float v = CrossPlatformInputManager.GetAxis("Vertical");
+            float v = 1;//CrossPlatformInputManager.GetAxis("Vertical"); - constant value cuz character is constantly running forth
             bool crouch = Input.GetKey(KeyCode.C);
 
             // calculate move direction to pass to character
@@ -90,8 +94,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 #if !MOBILE_INPUT
             // walk speed multiplier
             if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 0.5f;
-#endif
-
+#endif           
             // pass all parameters to the character control script
             m_Character.Move(m_Move, crouch, m_Jump);
             m_Jump = false;

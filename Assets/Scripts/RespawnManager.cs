@@ -50,12 +50,12 @@ public class RespawnManager : MonoBehaviour
         // Pick Up objects should be circa 5 times rarer than enemies
         myObjects.Where(o => o.CompareTag("Enemy") || (o.CompareTag("Pick Up") && Random.Range(1, 6) == 1))
                  .ToList()
-                 .ForEach(o => Instantiate(o, new Vector3(Random.Range(MinX, MaxX), 0.5f, Random.Range(MinZ, MaxZ)), Quaternion.identity));
+                 .ForEach(o => Instantiate(o, new Vector3(Random.Range(MinX, MaxX), 0, Random.Range(MinZ, MaxZ)), Quaternion.identity));
     }
 
     void SetRandomTime()
     {
-        spawnTime = character.time != 0 ? Random.Range(minFactor, maxFactor) / (character.time + character.coins) : Random.Range(minFactor, maxFactor);
+        spawnTime = character.time != 0f ? Random.Range(minFactor, maxFactor) / (character.time + character.coins) : Random.Range(minFactor, maxFactor);
     }
 
 }
